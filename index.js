@@ -618,7 +618,11 @@ app.get('/api/udp-message', (req, res) => {
 // Routes
 app.use('/api/users', userRoutes);
 
-
+var counts = {
+      notConnected: 0, // liquid_detected = -1
+      empty: 0,        // liquid_detected = 0
+      inProgress: 0,   // liquid_detected = 1
+    };
 
 app.post('/api/boards/compare/:floor/:ward/:room', async (req, res) => {
   try {
@@ -647,11 +651,7 @@ app.post('/api/boards/compare/:floor/:ward/:room', async (req, res) => {
     console.log('Matching boards:', matchingBoards);
 
     // Calculate counts based on liquid_detected values from boardData
-    const counts = {
-      notConnected: 0, // liquid_detected = -1
-      empty: 0,        // liquid_detected = 0
-      inProgress: 0,   // liquid_detected = 1
-    };
+
 
     // Iterate through matching boards and match with boardData to get liquid_detected
     matchingBoards.forEach((matchedBoard) => {
